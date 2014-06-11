@@ -33,6 +33,12 @@ var running = 0;
     	running--;
     	if (running <= 0) {
     		running = 0;
+
+        if (config.runCoverage){
+          coverage = require("./coverage");
+          coverage.writeReports(config.tishadow_coverage, config.runCoverage);
+          logger.log("INFO", "COVER","Check the report on " + config.tishadow_coverage + " directory");
+        }
     		socket.disconnect();
     	}
     } else if(config.isJUnit && data.level === "TEST"){
@@ -41,6 +47,10 @@ var running = 0;
     	var target_file = path.join(config.tishadow_build, data.name.replace(/(, |\.)/g, "_") + "_" + file_name + "_" + Math.random().toString(36).substring(7) +  "_result.xml");
     	fs.writeFileSync(target_file,content);
     	logger.info("Report Generated: " + target_file);
+    } else if (data.level === "COVER") {
+      coverage = require("./coverage");
+      var coverageObject = JSON.parse(data.message);
+      coverage.addCoverage(coverageObject);
     } else {
     	logger.log(data.level, data.name, data.message);
     }
@@ -50,4 +60,3 @@ var running = 0;
   });
   return socket;
 };
-

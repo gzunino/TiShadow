@@ -99,6 +99,7 @@ program.command('spec')
   .option('-D, --include-dot-files', 'includes dot files in the bundle (defaults to false)')
   .option('-T, --target <app_name>', 'target TiShadow app (defaults to name on tiapp.xml or moduleid on manifest)')
   .option('-C, --clear-spec-files', 'clears only the spec files from the cache')
+  .option('-c, --coverage <report_types>', 'runs code coverage, for available report_types see https://github.com/gotwarlost/istanbul#the-report-command')
   .action(compiler);
 
 program.command('close')
@@ -119,7 +120,7 @@ program.command('repl')
   .action(api.sendSnippet);
 
 program.command('screenshot')
-  .description('close the running app on the device'.grey)
+  .description('capture screenshots of all connected devices'.grey)
   .option('-o, --host <host>', 'server host name / ip address')
   .option('-p, --port <port>', 'server port')
   .option('-r, --room <room>', 'server room')
